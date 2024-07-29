@@ -1,10 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import {
+  Contact,
   Home as HomePage,
   Login as LoginPage,
+  Policy,
   Suggestions,
   SuggestionsDetails,
+  Terms,
 } from "@/page";
 import RootLayout from "@/layout/RootLayout";
 
@@ -18,6 +21,9 @@ const App: React.FC = () => {
             <Route path="/suggestions" element={<Suggestions />} />
             <Route path="/suggestions/:id" element={<SuggestionsDetails />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/policy" element={<Policy />} />
           </Route>
         </Routes>
       </BrowserRouter>

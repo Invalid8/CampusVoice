@@ -14,20 +14,20 @@ function Navbar() {
     <header className="bg-gray-900 py-4 px-6 shadow-sm">
       <div className="flex items-center justify-between max-w-6xl mx-auto">
         <Link
-          to="#"
+          to="/"
           className="flex items-center gap-2 font-bold text-lg text-white"
         >
           <LightbulbIcon className="w-6 h-6 fill-white" />
           <span>Campus Voice</span>
         </Link>
         <nav className="flex items-center gap-4 md:flex">
-          <Link to="#" className="text-white hover:underline">
+          <Link to="/" className="text-white hover:underline">
             Home
           </Link>
-          <Link to="#" className="text-white hover:underline">
+          <Link to="/suggesstions" className="text-white hover:underline">
             Suggestions
           </Link>
-          <Link to="#" className="text-white hover:underline">
+          <Link to="/contact" className="text-white hover:underline">
             Contact
           </Link>
         </nav>
@@ -48,13 +48,13 @@ function Navbar() {
         </DropdownMenu>
       </div>
       <nav className="flex items-center gap-4 mt-4 md:hidden">
-        <Link to="#" className="text-white hover:underline">
+        <Link to="/" className="text-white hover:underline">
           Home
         </Link>
-        <Link to="#" className="text-white hover:underline">
+        <Link to="/suggesstions" className="text-white hover:underline">
           Suggestions
         </Link>
-        <Link to="#" className="text-white hover:underline">
+        <Link to="/contact" className="text-white hover:underline">
           Contact
         </Link>
       </nav>

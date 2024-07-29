@@ -6,13 +6,13 @@ function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between text-white">
         <p>&copy; 2024 Campus Voice. All rights reserved.</p>
         <nav className="flex items-center gap-4 mt-4 md:mt-0">
-          <Link to="#" className="hover:underline">
+          <Link to="/policy" className="hover:underline">
             Privacy Policy
           </Link>
-          <Link to="#" className="hover:underline">
+          <Link to="/terms" className="hover:underline">
             Terms of Service
           </Link>
-          <Link to="#" className="hover:underline">
+          <Link to="/contact" className="hover:underline">
             Contact
           </Link>
         </nav>
