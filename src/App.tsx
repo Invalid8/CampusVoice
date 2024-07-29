@@ -24,6 +24,14 @@ const App: React.FC = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/policy" element={<Policy />} />
+            <Route
+              path="*"
+              element={
+                <div>
+                  <h1>Page Not Found</h1>
+                </div>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>

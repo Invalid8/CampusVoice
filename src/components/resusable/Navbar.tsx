@@ -24,7 +24,7 @@ function Navbar() {
           <Link to="/" className="text-white hover:underline">
             Home
           </Link>
-          <Link to="/suggesstions" className="text-white hover:underline">
+          <Link to="/suggestions" className="text-white hover:underline">
             Suggestions
           </Link>
           <Link to="/contact" className="text-white hover:underline">
@@ -51,7 +51,7 @@ function Navbar() {
         <Link to="/" className="text-white hover:underline">
           Home
         </Link>
-        <Link to="/suggesstions" className="text-white hover:underline">
+        <Link to="/suggestions" className="text-white hover:underline">
           Suggestions
         </Link>
         <Link to="/contact" className="text-white hover:underline">
