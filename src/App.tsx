@@ -1,10 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import {
+  About,
   Contact,
   Home as HomePage,
-  Login as LoginPage,
+  NotFound,
   Policy,
+  Profile,
+  Settings,
   Suggestions,
   SuggestionsDetails,
   Terms,
@@ -20,18 +23,13 @@ const App: React.FC = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/suggestions" element={<Suggestions />} />
             <Route path="/suggestions/:id" element={<SuggestionsDetails />} />
-            <Route path="/login" element={<LoginPage />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/policy" element={<Policy />} />
-            <Route
-              path="*"
-              element={
-                <div>
-                  <h1>Page Not Found</h1>
-                </div>
-              }
-            />
+            <Route path="/about" element={<About />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>

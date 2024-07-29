@@ -9,7 +9,7 @@ function Home() {
       <div className="grid md:grid-cols-[1fr_300px] gap-8">
         <div>
           <div className="space-y-4">
-            <h1 className="text-3xl font-bold text-gray-900">Suggestion Box</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Suggestions</h1>
             <p className="text-gray-500">
               Share your ideas and feedback to help improve our university.
             </p>

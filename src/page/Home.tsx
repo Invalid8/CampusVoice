@@ -1,19 +1,23 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/context/AuthContext";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Home() {
+  const { user, showLogin } = useAuth();
+  const [email, setEmail] = useState<string>("");
+
   return (
     <main className="flex-1">
-      <section className="w-full py-4 md:py-8 lg:py-16 xl:py-24 bg-primary">
+      <section className="w-full py-4 md:py-8 lg:py-16 bg-primary flex flex-col justify-center">
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-[1fr_600px]">
             <div className="flex flex-col justify-center space-y-4 text-primary-foreground">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                  Empower Your Voice with Adekunle Ajasin University Suggestion
-                  Box
+                  Empower Your Voice with AAUA Campus Voice
                 </h1>
                 <p className="max-w-[600px] text-primary-foreground/80 md:text-xl">
                   Easily submit, vote, and track the status of your suggestions
@@ -21,14 +25,16 @@ function Home() {
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                {!user && (
+                  <Button
+                    className="inline-flex h-10 items-center width-auto justify-center rounded-md bg-primary-foreground px-8 text-sm font-medium text-primary shadow transition-colors hover:bg-primary-foreground/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                    onClick={() => showLogin()}
+                  >
+                    Sign Up
+                  </Button>
+                )}
                 <Link
-                  to="#"
-                  className="inline-flex h-10 items-center width-auto justify-center rounded-md bg-primary-foreground px-8 text-sm font-medium text-primary shadow transition-colors hover:bg-primary-foreground/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-                >
-                  Sign Up
-                </Link>
-                <Link
-                  to="#"
+                  to="/about"
                   className="inline-flex h-10 items-center width-auto justify-center rounded-md border border-primary-foreground bg-primary px-8 text-sm font-medium shadow-sm transition-colors hover:bg-primary-foreground hover:text-primary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                 >
                   Learn More
@@ -58,10 +64,10 @@ function Home() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 Streamline Your Suggestions
               </h2>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Adekunle Ajasin University Suggestion Box empowers you to easily
-                submit, vote, and track the status of your suggestions for a
-                better campus experience.
+              <p className="max-w-[900px] pb-4 text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                <strong>Campus Voice</strong> empowers you to easily submit,
+                vote, and track the status of your suggestions for a better
+                campus experience.
               </p>
             </div>
           </div>
@@ -97,8 +103,8 @@ function Home() {
             <div className="grid gap-1">
               <h3 className="text-lg font-bold">Mobile Responsiveness</h3>
               <p className="text-sm text-muted-foreground">
-                Access the Suggestion Box from any device, ensuring
-                accessibility for the rural university community.
+                Access the <strong>Campus Voice</strong> from any device,
+                ensuring accessibility for the rural university community.
               </p>
             </div>
             <div className="grid gap-1">
@@ -121,13 +127,12 @@ function Home() {
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 Empowering the Adekunle Ajasin University Community
               </h2>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                The Adekunle Ajasin University Suggestion Box is a web-based
-                platform that allows students, staff, and faculty to easily
-                submit, vote, and track the status of their suggestions for
-                improving the campus experience. With a focus on mobile
-                responsiveness, the app ensures accessibility for the rural
-                university community.
+              <p className="max-w-[900px] mx-auto text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                The <strong>Campus Voice</strong>is a web-based platform that
+                allows students, staff, and faculty to easily submit, vote, and
+                track the status of their suggestions for improving the campus
+                experience. With a focus on mobile responsiveness, the app
+                ensures accessibility for the rural university community.
               </p>
             </div>
           </div>
@@ -147,8 +152,9 @@ function Home() {
                       User-Friendly Interface
                     </h3>
                     <p className="text-muted-foreground">
-                      The intuitive design of the Suggestion Box makes it easy
-                      for users to navigate and submit their ideas.
+                      The intuitive design of the <strong>Campus Voice</strong>{" "}
+                      makes it easy for users to navigate and submit their
+                      ideas.
                     </p>
                   </div>
                 </li>
@@ -178,26 +184,28 @@ function Home() {
         </div>
       </section>
       <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-        <div className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
+        <div className="container grid items-center gap-6 px-4 md:px-6 lg:gap-10 justify-center">
           <div className="space-y-2">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
               Accessible for All
             </h2>
             <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              The Adekunle Ajasin University Suggestion Box is a free-to-use
-              platform, ensuring that all members of the campus community can
-              participate and have their voices heard.
+              The <strong>Campus Voice</strong> is a free-to-use platform,
+              ensuring that all members of the campus community can participate
+              and have their voices heard.
             </p>
           </div>
           <div className="flex flex-col gap-4 lg:justify-end">
+            {!user && (
+              <Button
+                onClick={showLogin}
+                className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              >
+                Sign Up
+              </Button>
+            )}
             <Link
-              to="#"
-              className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-            >
-              Sign Up
-            </Link>
-            <Link
-              to="#"
+              to="/about"
               className="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
             >
               Learn More
@@ -213,12 +221,12 @@ function Home() {
             </h2>
             <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               Hear from our satisfied users about their experience with the
-              Adekunle Ajasin University Suggestion Box app.
+              <strong>Campus Voice</strong> app.
             </p>
           </div>
           <div className="mx-auto grid max-w-5xl divide-y rounded-lg border md:grid-cols-2 md:divide-x md:divide-y-0">
             <div className="grid gap-4 p-8 md:p-10">
-              <div className="flex items-start gap-4">
+              <div className="flex gap-4 justify-center flex-col items-center">
                 <Avatar className="w-10 h-10 border">
                   <AvatarImage src="/placeholder-user.jpg" />
                   <AvatarFallback>JD</AvatarFallback>
@@ -230,15 +238,15 @@ function Home() {
               </div>
               <div className="prose text-muted-foreground">
                 <p>
-                  "The Suggestion Box app has been a game-changer for our
-                  university. It's so easy to submit ideas and track their
-                  progress. I've seen several of my suggestions implemented, and
-                  it's really empowering."
+                  "The <strong>Campus Voice</strong> app has been a game-changer
+                  for our university. It's so easy to submit ideas and track
+                  their progress. I've seen several of my suggestions
+                  implemented, and it's really empowering."
                 </p>
               </div>
             </div>
             <div className="grid gap-4 p-8 md:p-10">
-              <div className="flex items-start gap-4">
+              <div className="flex gap-4 justify-center flex-col items-center">
                 <Avatar className="w-10 h-10 border">
                   <AvatarImage src="/placeholder-user.jpg" />
                   <AvatarFallback>JD</AvatarFallback>
@@ -250,10 +258,10 @@ function Home() {
               </div>
               <div className="prose text-muted-foreground">
                 <p>
-                  "As a faculty member, I've found the Suggestion Box app to be
-                  an invaluable tool for gathering feedback and implementing
-                  improvements. The admin dashboard makes it easy to manage and
-                  respond to suggestions."
+                  "As a faculty member, I've found the{" "}
+                  <strong>Campus Voice</strong> app to be an invaluable tool for
+                  gathering feedback and implementing improvements. The admin
+                  dashboard makes it easy to manage and respond to suggestions."
                 </p>
               </div>
             </div>
@@ -268,15 +276,32 @@ function Home() {
             </h2>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               Have any questions or feedback about the Adekunle Ajasin
-              University Suggestion Box? Don't hesitate to reach out to us.
+              University <strong>Campus Voice</strong>? Don't hesitate to reach
+              out to us.
             </p>
           </div>
           <div className="mx-auto w-full max-w-sm space-y-2">
-            <form className="flex gap-2">
+            <form
+              className="flex gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+
+                if (user && user.email) setEmail(user.email);
+
+                if (!email) return;
+
+                window.location.href = `/contact${!user && `?email=${email}`}`;
+              }}
+            >
               <Input
                 type="email"
                 placeholder="Enter your email"
                 className="max-w-lg flex-1"
+                required
+                value={user?.email ?? email}
+                readOnly={!!user}
+                disabled={!!user}
+                onChange={(e) => setEmail(e.currentTarget.value)}
               />
               <Button type="submit">Contact Us</Button>
             </form>
