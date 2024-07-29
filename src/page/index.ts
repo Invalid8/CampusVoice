@@ -1,4 +1,6 @@
-import Home from "./Home";
+import Suggestions from "./Suggestions";
 import Login from "./Login";
+import Home from "./Home";
+import SuggestionsDetails from "./SuggestionDetails";
 
-export { Home, Login };
+export { Suggestions, Login, Home, SuggestionsDetails };
