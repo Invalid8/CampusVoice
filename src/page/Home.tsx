@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from '@/assets/react.svg'
-import viteLogo from '/vite.svg'
-import '@/App.css'
+import { SuggestModal, Filter, TopSuggest } from "@/components/resusable";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function Home() {
-    const [count, setCount] = useState(0)
-
-    return (
+  return (
+    <div className="flex-1 max-w-6xl mx-auto py-8 px-6">
+      <div className="grid md:grid-cols-[1fr_300px] gap-8">
         <div>
-            <div>
-                <a href="https://vitejs.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/Home.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
+          <div className="space-y-4">
+            <h1 className="text-3xl font-bold text-gray-900">Suggestion Box</h1>
+            <p className="text-gray-500">
+              Share your ideas and feedback to help improve our university.
             </p>
+            <Button className="bg-gray-900 text-white hover:bg-gray-800">
+              <PlusIcon className="w-4 h-4 mr-2" />
+              Submit Suggestion
+            </Button>
+          </div>
+          <div className="mt-8 space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-gray-900">
+                Recent Suggestions
+              </h2>
+              <Link className="text-gray-900 hover:underline" to="/suggestions">
+                View All
+              </Link>
+            </div>
+            <div className="grid gap-4">
+              <SuggestModal />
+              <SuggestModal />
+              <SuggestModal />
+            </div>
+          </div>
         </div>
-    )
+        <div className="space-y-4">
+          <Filter />
+          <TopSuggest />
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default Home
+export default Home;
