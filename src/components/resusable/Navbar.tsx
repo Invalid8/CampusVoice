@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/context/AuthContext";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 function Navbar() {
   const { user, showLogin, signOut } = useAuth();
@@ -61,6 +61,12 @@ function Navbar() {
                 onClick={() => (window.location.href = "/profile")}
               >
                 My Account
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => (window.location.href = "/settings")}
+              >
+                Settings
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem

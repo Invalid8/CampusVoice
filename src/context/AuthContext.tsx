@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog";
 
 interface AuthContextType {
-  user: User | null;
+  user: (User & { role: string }) | null;
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
   showLogin: () => void;
@@ -29,7 +29,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<(User & { role: string }) | null>(null);
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -40,7 +40,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setUser(currentUser);
       });
     }
-
     setLoading(false);
   }, []);
 
@@ -48,7 +47,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     await signInWithGoogle();
     const currentUser = await getCurrentUser();
     setUser(currentUser);
-    // window.location.reload(); // Refresh the page after successful sign-in
   };
 
   const signOut = async () => {

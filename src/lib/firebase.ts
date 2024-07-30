@@ -1,5 +1,3 @@
-"use server";
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -9,6 +7,7 @@ import {
   signInWithPopup,
   signOut,
   User,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import Cookies from "js-cookie";
@@ -51,12 +50,22 @@ const logout = async (): Promise<void> => {
   }
 };
 
-const getCurrentUser = (): Promise<User | null> => {
+const getCurrentUser = (): Promise<(User & { role: string }) | null> => {
   return new Promise((resolve) => {
-    auth.onAuthStateChanged((user) => {
-      resolve(user);
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const token = await user.getIdTokenResult();
+        const { claims } = token;
+        const userWithRole = {
+          ...user,
+          role: claims.role || "user", // Default role if none is set
+        };
+        resolve(userWithRole);
+      } else {
+        resolve(null);
+      }
     });
   });
 };
 
-export { auth, db, signInWithGoogle, logout, getCurrentUser, analytics };
+export { auth, db, signInWithGoogle, logout, getCurrentUser, analytics, app };
