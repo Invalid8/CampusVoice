@@ -2,6 +2,7 @@ import { SuggestModal, Filter, TopSuggest } from "@/components/resusable";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Suggestions } from "@/data";
 
 function Home() {
   return (
@@ -28,7 +29,9 @@ function Home() {
               </Link>
             </div>
             <div className="grid gap-4">
-              <SuggestModal />
+              {Suggestions.map((suggestion) => (
+                <SuggestModal suggestion={suggestion} key={suggestion.id} />
+              ))}
             </div>
           </div>
         </div>

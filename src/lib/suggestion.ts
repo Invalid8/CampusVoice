@@ -26,8 +26,9 @@ export interface Suggestion {
   upvotes: number;
   downvotes: number;
   isPublic: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
+  category: string[];
 }
 
 // Create a new suggestion

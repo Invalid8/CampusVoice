@@ -1,0 +1,67 @@
+[
+  {
+    "id": "suggestion1",
+    "title": "Improve Library Hours",
+    "description": "Extend the library hours to accommodate students who study late.",
+    "status": "Draft",
+    "createdBy": "user123",
+    "category": ["academic"],
+    "upvotes": 10,
+    "downvotes": 2,
+    "isPublic": true,
+    "createdAt": "2023-07-30T12:34:56.789Z",
+    "updatedAt": "2023-07-30T12:34:56.789Z"
+  },
+  {
+    "id": "suggestion2",
+    "title": "Increase Parking Spaces",
+    "description": "Add more parking spaces on campus to accommodate the growing number of students with cars.",
+    "status": "Pending",
+    "createdBy": "user456",
+    "category": ["academic"],
+    "upvotes": 25,
+    "downvotes": 5,
+    "isPublic": true,
+    "createdAt": "2023-07-29T11:22:33.456Z",
+    "updatedAt": "2023-07-29T11:22:33.456Z"
+  },
+  {
+    "id": "suggestion3",
+    "title": "Upgrade Wi-Fi",
+    "description": "Improve the Wi-Fi coverage and speed across the entire campus.",
+    "status": "Done",
+    "createdBy": "user789",
+    "category": ["academic"],
+    "upvotes": 40,
+    "downvotes": 3,
+    "isPublic": true,
+    "createdAt": "2023-07-28T10:11:22.333Z",
+    "updatedAt": "2023-07-28T10:11:22.333Z"
+  },
+  {
+    "id": "suggestion4",
+    "title": "Add More Study Rooms",
+    "description": "Create more study rooms in the library for group study sessions.",
+    "status": "Canceled",
+    "createdBy": "user101",
+    "category": ["academic"],
+    "upvotes": 15,
+    "downvotes": 7,
+    "isPublic": true,
+    "createdAt": "2023-07-27T09:00:11.111Z",
+    "updatedAt": "2023-07-27T09:00:11.111Z"
+  },
+  {
+    "id": "suggestion5",
+    "title": "Host More Events",
+    "description": "Organize more social and educational events on campus.",
+    "status": "Draft",
+    "createdBy": "user202",
+    "category": ["academic"],
+    "upvotes": 20,
+    "downvotes": 4,
+    "isPublic": false,
+    "createdAt": "2023-07-26T08:22:33.444Z",
+    "updatedAt": "2023-07-26T08:22:33.444Z"
+  }
+]
