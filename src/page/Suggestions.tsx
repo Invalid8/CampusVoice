@@ -29,8 +29,6 @@ function Home() {
             </div>
             <div className="grid gap-4">
               <SuggestModal />
-              <SuggestModal />
-              <SuggestModal />
             </div>
           </div>
         </div>
