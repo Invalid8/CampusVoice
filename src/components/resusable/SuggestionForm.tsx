@@ -17,6 +17,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 interface SuggestionDialogProps {
   open: boolean;
   onClose: () => void;
@@ -33,12 +41,16 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
   const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [urgency, setUrgency] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (suggestion) {
       setTitle(suggestion.title);
       setDescription(suggestion.description);
+      setCategory(suggestion.category);
+      setUrgency(suggestion.urgency);
     }
   }, [suggestion]);
 
@@ -52,7 +64,11 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
 
     try {
       if (isEditMode && suggestion) {
-        await updateSuggestion(suggestion.id, { title, description }, user);
+        await updateSuggestion(
+          suggestion.id,
+          { title, description, category, urgency },
+          user
+        );
       } else {
         await createSuggestion({
           title,
@@ -64,13 +80,15 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
           isPublic: false,
           createdAt: new Date(),
           updatedAt: new Date(),
-          category: "academic",
-          urgency: "low"
+          category,
+          urgency: "low",
         });
       }
 
       setTitle("");
       setDescription("");
+      setCategory("");
+      setUrgency("");
       onClose();
     } catch (error) {
       console.error("Error submitting suggestion:", error);
@@ -105,6 +123,29 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
             onChange={(e) => setDescription(e.target.value)}
             disabled={loading}
           />
+          <Select onValueChange={setCategory}>
+            <SelectTrigger>
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="infrastructure">Infrastructure</SelectItem>
+              <SelectItem value="academics">Academics</SelectItem>
+              <SelectItem value="campus-life">Campus Life</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </SelectContent>
+          </Select>
+          <Input
+            placeholder="Category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            disabled={loading}
+          />
+          {/* <Input
+            placeholder="Urgency"
+            value={urgency}
+            onChange={(e) => setUrgency(e.target.value)}
+            disabled={loading}
+          /> */}
         </div>
         <DialogFooter>
           <Button variant="secondary" onClick={onClose} disabled={loading}>
