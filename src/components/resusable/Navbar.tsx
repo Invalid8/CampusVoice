@@ -82,7 +82,7 @@ function Navbar() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant={"secondary"} className="gap-1">
+            <Button variant={"secondary"} className="gap-1" onClick={()=>setOpen(true)}>
               <PlusIcon className="w-4 h-4" />
               <span className="hidden sm:flex">Create Suggestion</span>
             </Button>

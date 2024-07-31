@@ -290,7 +290,7 @@ function Home() {
 
                 if (!email) return;
 
-                window.location.href = `/contact${!user && `?email=${email}`}`;
+                window.location.href = `/contact?email=${email}`;
               }}
             >
               <Input

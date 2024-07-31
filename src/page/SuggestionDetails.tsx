@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import {
-  getSuggestion,
   deleteSuggestion,
   upvoteSuggestion,
   downvoteSuggestion,
@@ -11,18 +10,21 @@ import {
 } from "@/lib/suggestion";
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/ui/loader";
+import { Suggestions as AllSuggestions } from "@/data";
 
 const SuggestionDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
-  const [suggestion, setSuggestion] = useState<Suggestion | null>(null);
+  const [suggestion, setSuggestion] = useState<Suggestion | null | undefined>(
+    null
+  );
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSuggestion = async () => {
       try {
-        const data = await getSuggestion(id!);
+        const data = AllSuggestions.find((e) => e.id === id);
         setSuggestion(data);
       } catch (error) {
         console.error(error);
@@ -77,7 +79,12 @@ const SuggestionDetail: React.FC = () => {
     ); // Display message if no suggestion found
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-6">
+    <div className="max-w-4xl mx-auto py-8 px-6 flex flex-col gap-2">
+      <Link to="/suggestions">
+        <Button className="bg-gray-900 text-white hover:bg-gray-800 float-right">
+          Go back to Suggestions
+        </Button>
+      </Link>
       <div className="space-y-4">
         <h1 className="text-3xl font-bold text-gray-900">{suggestion.title}</h1>
         <p className="text-gray-700">{suggestion.description}</p>
