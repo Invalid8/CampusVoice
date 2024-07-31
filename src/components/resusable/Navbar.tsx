@@ -1,4 +1,4 @@
-import { LightbulbIcon } from "lucide-react";
+import { LightbulbIcon, PlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   DropdownMenu,
@@ -41,42 +41,48 @@ function Navbar() {
           </Link>
         </nav>
         {user && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Avatar className="h-9 w-9">
-                <AvatarImage src={user.photoURL ?? "/placeholder-user.jpg"} />
-                <AvatarFallback>{user.displayName?.charAt(0)}</AvatarFallback>
-                <span className="sr-only">Toggle user menu</span>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem className="hover:bg-transparent hover:bg-none">
-                <div className="flex flex-col gap-1">
-                  <h5 className="font-bold">{user.displayName}</h5>
-                  <p>{user.email}</p>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => (window.location.href = "/profile")}
-              >
-                My Account
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => (window.location.href = "/settings")}
-              >
-                Settings
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => signOut()}
-              >
-                Logout
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex gap-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="h-9 w-9">
+                  <AvatarImage src={user.photoURL ?? "/placeholder-user.jpg"} />
+                  <AvatarFallback>{user.displayName?.charAt(0)}</AvatarFallback>
+                  <span className="sr-only">Toggle user menu</span>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem className="hover:bg-transparent hover:bg-none">
+                  <div className="flex flex-col gap-1">
+                    <h5 className="font-bold">{user.displayName}</h5>
+                    <p>{user.email}</p>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => (window.location.href = "/profile")}
+                >
+                  My Account
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => (window.location.href = "/settings")}
+                >
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => signOut()}
+                >
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Button variant={"secondary"} className="gap-1">
+              <PlusIcon className="w-4 h-4" />
+              <span className="hidden sm:flex">Create Suggestion</span>
+            </Button>
+          </div>
         )}
         {!user && (
           <Button

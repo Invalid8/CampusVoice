@@ -1,4 +1,4 @@
-import { CalendarIcon, ThumbsUpIcon } from "lucide-react";
+import { CalendarIcon, ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 import {
   Card,
   CardDescription,
@@ -8,33 +8,44 @@ import {
 } from "../ui/card";
 import { Link } from "react-router-dom";
 import { Suggestion } from "@/lib/suggestion";
+import FormatDate from "@/lib/formatDate";
+import SubString from "@/lib/subString";
 
 const SuggestModal = ({ suggestion }: { suggestion: Suggestion }) => {
+  const date = new Date(suggestion.createdAt);
+
   return (
-    <Link to={"/suggestion"}>
-      <Card>
-        <CardHeader>
+    <Link to={"/suggestions/" + suggestion.id}>
+      <Card className="h-[200px] max-h-[200px] justify-between flex-col flex hover:bg-accent overflow-hidden">
+        <CardHeader className="p-3 sm:p-4">
           <CardTitle>{suggestion.title}</CardTitle>
-          <CardDescription>{suggestion.description}</CardDescription>
-          <div className=" flex flex-row gap-2 items-center text-sm">
-            <span className=" p-1 bg-gray-200 rounded-md">
+          <CardDescription className="">
+            {SubString(suggestion.description, 80)}
+          </CardDescription>
+          <div className="flex-row gap-2 items-center text-sm sm:flex hidden">
+            <span className=" p-1 bg-gray-200 rounded-md capitalize">
               {suggestion.category}
             </span>
-            <span className=" p-1 bg-gray-200 rounded-md"> </span>
-            <span className=" p-1 bg-gray-200 rounded-md">
-              {" "}
-              {suggestion.status}{" "}
+            <span className=" p-1 bg-gray-200 rounded-md" />
+            <span className=" p-1 bg-gray-200 rounded-md capitalize">
+              {suggestion.status}
             </span>
           </div>
         </CardHeader>
-        <CardFooter className="flex items-center justify-between">
+        <CardFooter className="items-center justify-between sm:flex hidden">
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <CalendarIcon className="w-4 h-4" />
-            <span>{}</span>
+            <span>{FormatDate(date)}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-500">
-            <ThumbsUpIcon className="w-4 h-4 fill-gray-900" />
-            <span>{suggestion.upvotes} votes</span>
+            <div className="flex gap-1">
+              <ThumbsDownIcon className="w-4 h-4 fill-gray-900" />
+              <span>{suggestion.downvotes}</span>
+            </div>
+            <div className="flex gap-1">
+              <ThumbsUpIcon className="w-4 h-4 fill-gray-900" />
+              <span>{suggestion.upvotes}</span>
+            </div>
           </div>
         </CardFooter>
       </Card>

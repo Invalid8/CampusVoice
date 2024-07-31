@@ -21,14 +21,15 @@ export interface Suggestion {
   id: string;
   title: string;
   description: string;
-  status: string;
+  status: "Pending" | "Done" | "CLosed" | "Canceled" | string;
   createdBy: string;
   upvotes: number;
   downvotes: number;
   isPublic: boolean;
   createdAt: string;
   updatedAt: string;
-  category: string[];
+  category: string;
+  urgency: "low" | "medium" | "high" | string;
 }
 
 // Create a new suggestion
