@@ -6,7 +6,6 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
-  User,
   onAuthStateChanged,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
@@ -22,7 +21,7 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
-console.log(firebaseConfig)
+console.log(firebaseConfig);
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
@@ -51,7 +50,7 @@ const logout = async (): Promise<void> => {
   }
 };
 
-const getCurrentUser = (): Promise<(User & { role: string }) | null> => {
+const getCurrentUser = (): Promise<any> => {
   return new Promise((resolve) => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {

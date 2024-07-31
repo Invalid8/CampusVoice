@@ -16,7 +16,7 @@ const SuggestModal = ({ suggestion }: { suggestion: Suggestion }) => {
 
   return (
     <Link to={"/suggestions/" + suggestion.id}>
-      <Card className="h-[200px] max-h-[200px] justify-between flex-col flex hover:bg-accent overflow-hidden">
+      <Card className="sm:h-[200px] sm:max-h-[200px] justify-between flex-col flex hover:bg-accent overflow-hidden">
         <CardHeader className="p-3 sm:p-4">
           <CardTitle>{suggestion.title}</CardTitle>
           <CardDescription className="">
@@ -32,7 +32,7 @@ const SuggestModal = ({ suggestion }: { suggestion: Suggestion }) => {
             </span>
           </div>
         </CardHeader>
-        <CardFooter className="items-center justify-between sm:flex hidden">
+        <CardFooter className="items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <CalendarIcon className="w-4 h-4" />
             <span>{FormatDate(date)}</span>

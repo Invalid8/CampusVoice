@@ -10,9 +10,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
+import { SuggestionForm } from ".";
+import { useState } from "react";
 
 function Navbar() {
   const { user, showLogin, signOut } = useAuth();
+
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <header className="bg-gray-900 py-4 px-6 shadow-sm">
@@ -82,6 +86,12 @@ function Navbar() {
               <PlusIcon className="w-4 h-4" />
               <span className="hidden sm:flex">Create Suggestion</span>
             </Button>
+            <SuggestionForm
+              open={open}
+              onClose={() => {
+                setOpen(!open);
+              }}
+            />
           </div>
         )}
         {!user && (
