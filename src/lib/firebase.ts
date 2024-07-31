@@ -21,7 +21,6 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 
-console.log(firebaseConfig);
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
@@ -34,7 +33,6 @@ const signInWithGoogle = async (): Promise<void> => {
     const user = result.user;
     const token = await user.getIdToken();
     Cookies.set("token", token, { expires: 7, path: "/" });
-    console.log("Sign in successful:", user);
   } catch (error: any) {
     console.error("Error signing in with Google:", error?.message);
   }
@@ -44,7 +42,6 @@ const logout = async (): Promise<void> => {
   try {
     await signOut(auth);
     Cookies.remove("token", { path: "/" });
-    console.log("Sign out successful");
   } catch (error: any) {
     console.error("Error signing out:", error?.message);
   }
