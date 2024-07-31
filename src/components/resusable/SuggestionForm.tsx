@@ -64,6 +64,8 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
           isPublic: false,
           createdAt: new Date(),
           updatedAt: new Date(),
+          category: "academic",
+          urgency: "low"
         });
       }
 

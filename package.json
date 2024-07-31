@@ -27,7 +27,8 @@
     "react-firebase-hooks": "^5.1.1",
     "react-router-dom": "v6",
     "tailwind-merge": "^2.4.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",

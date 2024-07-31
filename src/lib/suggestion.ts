@@ -26,8 +26,8 @@ export interface Suggestion {
   upvotes: number;
   downvotes: number;
   isPublic: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
   category: string;
   urgency: "low" | "medium" | "high" | string;
 }
