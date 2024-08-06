@@ -150,33 +150,32 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
             </>
           )}
 
-          {user?.role !== "user" ||
-            (suggestion?.createdBy === user.uid && (
-              <div className="grid grid-cols-2 gap-3">
-                <Select onValueChange={setUrgency} value={urgency}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Urgency" defaultValue={urgency} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="low">Low</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                  </SelectContent>
-                </Select>
+          {(user?.role !== "user" || suggestion?.createdBy === user.uid) && (
+            <div className="grid grid-cols-2 gap-3">
+              <Select onValueChange={setUrgency} value={urgency}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Urgency" defaultValue={urgency} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                </SelectContent>
+              </Select>
 
-                <Select onValueChange={setStatus} value={status}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Status" defaultValue={status} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="open">Open</SelectItem>
-                    <SelectItem value="in-progress">In Progress</SelectItem>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="closed">Closed</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            ))}
+              <Select onValueChange={setStatus} value={status}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Status" defaultValue={status} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="open">Open</SelectItem>
+                  <SelectItem value="in-progress">In Progress</SelectItem>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="closed">Closed</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
           {user?.role === "user" && (
             <>
               <Textarea

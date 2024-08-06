@@ -52,7 +52,7 @@ function Profile() {
               </div>
             )}
             {!loading && allSuggestions.length == 0 && (
-              <div className="flex justify-center items-center min-w-full min-h-full">
+              <div className="flex justify-center items-center min-w-full min-h-full py-8 sm:py-4">
                 <div className="info flex flex-col gap-2 items-center">
                   <h2 className="text-2xl font-bold text-gray-900">
                     NO Suggestions

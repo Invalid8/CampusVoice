@@ -46,7 +46,6 @@ const createUserDocument = async (user: User) => {
     await setDoc(
       userRef,
       {
-        uid: user.uid,
         email: user.email,
         displayName: user.displayName,
         photoURL: user.photoURL,
