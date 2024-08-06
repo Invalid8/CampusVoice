@@ -21,7 +21,7 @@ import FormatDate, { convertTimestampToDate } from "@/lib/formatDate";
 
 const SuggestionDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { user } = useAuth();
+  const { user, showLogin } = useAuth();
   const [suggestion, setSuggestion] = useState<Suggestion | null | undefined>(
     null
   );
@@ -39,7 +39,7 @@ const SuggestionDetail: React.FC = () => {
       try {
         const data = await getSuggestion(id!);
 
-        if (data) {
+        if (data && !!data.createdBy) {
           try {
             const dataAuthor = await getUserData(data.createdBy);
             setAuthor(dataAuthor);
@@ -131,12 +131,12 @@ const SuggestionDetail: React.FC = () => {
             <Avatar className="h-9 w-9">
               <AvatarImage src={author?.photoURL ?? "/placeholder-user.jpg"} />
               <AvatarFallback>
-                {author?.displayName?.charAt(0) ?? "A"}
+                {!user ? "U" : author?.displayName?.charAt(0) || "A"}
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-0 5">
               <span className="capitalized text-sm font-bold">
-                {author?.displayName ?? "Anonymous"}
+                {!user ? "User" : author?.displayName || "Anonymous"}
               </span>
               <span className="capitalized text-xs">
                 {FormatDate(convertTimestampToDate(suggestion.createdAt))}
@@ -186,7 +186,12 @@ const SuggestionDetail: React.FC = () => {
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-500 justify-end w-full">
             <Button
-              onClick={handleDownvote}
+              onClick={() => {
+                if (user) handleDownvote();
+                else {
+                  showLogin();
+                }
+              }}
               className="flex gap-1"
               variant="ghost"
             >
@@ -194,7 +199,12 @@ const SuggestionDetail: React.FC = () => {
               <span>{suggestion.downvotes}</span>
             </Button>
             <Button
-              onClick={handleUpvote}
+              onClick={() => {
+                if (user) handleUpvote();
+                else {
+                  showLogin();
+                }
+              }}
               className="flex gap-1"
               variant="ghost"
             >
@@ -210,7 +220,12 @@ const SuggestionDetail: React.FC = () => {
                 <hr className="pb-2" />
                 <div className="flex gap-2">
                   <Button onClick={() => setOpen(true)}>Edit</Button>
-                  <Button onClick={handleDelete} variant={"destructive"}>
+                  <Button
+                    onClick={() => {
+                      handleDelete();
+                    }}
+                    variant={"destructive"}
+                  >
                     Delete
                   </Button>
                   <SuggestionForm

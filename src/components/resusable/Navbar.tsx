@@ -1,5 +1,5 @@
 import { LightbulbIcon, PlusIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +15,7 @@ import { useState } from "react";
 
 function Navbar() {
   const { user, showLogin, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -64,13 +65,21 @@ function Navbar() {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="cursor-pointer"
-                  onClick={() => (window.location.href = "/profile")}
+                  onClick={() => navigate("/profile")}
                 >
                   My Account
                 </DropdownMenuItem>
+                {user?.role === "admin" && (
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => navigate("/users")}
+                  >
+                    Users & Moderators
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem
                   className="cursor-pointer"
-                  onClick={() => (window.location.href = "/settings")}
+                  onClick={() => navigate("/settings")}
                 >
                   Settings
                 </DropdownMenuItem>

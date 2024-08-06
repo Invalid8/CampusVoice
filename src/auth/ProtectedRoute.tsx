@@ -1,20 +1,30 @@
-import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 
 interface ProtectedRouteProps {
-    element: React.ReactElement;
+  children?: React.ReactNode;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
-    const { user } = useAuth();
-    const location = useLocation();
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const { showLogin, user } = useAuth();
 
-    if (!user) {
-        return <Navigate to="/login" state={{ from: location }} />;
-    }
+  useEffect(() => {
+    if (!user) showLogin();
+  });
 
-    return element;
+  if (!user) <div></div>;
+
+  return (
+    <>
+      {user ? (
+        children
+      ) : (
+        <div>
+          <h1></h1>
+        </div>
+      )}
+    </>
+  );
 };
 
 export default ProtectedRoute;

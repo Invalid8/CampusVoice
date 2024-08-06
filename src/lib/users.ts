@@ -8,6 +8,7 @@ import {
   doc,
   updateDoc,
   getDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 const db = getFirestore();
@@ -94,5 +95,14 @@ export async function getUserData(userId: string): Promise<any> {
     }
   } catch (error: any) {
     throw new Error(`Failed to retrieve user data: ${error.message}`);
+  }
+}
+
+export async function deleteUserAccount(userId: string): Promise<void> {
+  try {
+    const userRef = doc(db, "users", userId);
+    await deleteDoc(userRef);
+  } catch (error: any) {
+    throw new Error(`Failed to delete user account: ${error.message}`);
   }
 }

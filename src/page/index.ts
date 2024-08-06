@@ -8,8 +8,10 @@ import NotFound from "./NotFound";
 import About from "./About";
 import Profile from "./Profile";
 import Settings from "./Settings";
+import Users from "./Users";
 
 export {
+  Users,
   Settings,
   Profile,
   Suggestions,

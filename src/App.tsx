@@ -11,9 +11,11 @@ import {
   Suggestions,
   SuggestionsDetails,
   Terms,
+  Users,
 } from "@/page";
 import RootLayout from "@/layout/RootLayout";
 import { Suspense } from "react";
+import ProtectedRoute from "./auth/ProtectedRoute";
 
 const App: React.FC = () => {
   return (
@@ -35,8 +37,12 @@ const App: React.FC = () => {
             <Route path="/terms" element={<Terms />} />
             <Route path="/policy" element={<Policy />} />
             <Route path="/about" element={<About />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/settings" element={<Settings />} />
+
+            {/* Protected routes */}
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+            
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
