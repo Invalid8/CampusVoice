@@ -60,7 +60,7 @@ const SuggestionDetail: React.FC = () => {
         const filteredSuggestions = suggestions.filter(
           (s) => s.id !== id && s.status === suggestion?.status
         );
-        setRelatedSuggestions(filteredSuggestions.slice(0, 6));
+        setRelatedSuggestions(filteredSuggestions.slice(0, 3));
       } catch (error) {
         console.error("Error fetching related suggestions:", error);
       }
