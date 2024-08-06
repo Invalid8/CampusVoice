@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 interface SuggestionDialogProps {
   open: boolean;
@@ -44,6 +45,7 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
   const [category, setCategory] = useState("academic");
   const [urgency, setUrgency] = useState("low");
   const [status, setStatus] = useState("draft");
+  const [isAnonymous, setIsAnonymous] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -79,7 +81,7 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
           title,
           description,
           status,
-          createdBy: user.uid,
+          createdBy: !isAnonymous ? user.uid : "",
           upvotes: 0,
           downvotes: 0,
           isPublic: true,
@@ -109,7 +111,9 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent
+        className={cn(isAnonymous && "border-purple-700 border-4")}
+      >
         <DialogHeader>
           <DialogTitle>
             {isEditMode ? "Edit Suggestion" : "Create Suggestion"}
@@ -184,13 +188,28 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
             </>
           )}
         </div>
-        <DialogFooter>
-          <Button variant="secondary" onClick={onClose} disabled={loading}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleSubmit} disabled={loading}>
-            {loading ? "Submitting..." : isEditMode ? "Update" : "Create"}
-          </Button>
+        <DialogFooter className="w-full flex justify-between gap-4 min-w-full max-w-full">
+          <div className="flex gap-2 items-center">
+            <label htmlFor="anonymous">Anonymous</label>
+            <input
+              type="checkbox"
+              name="anonymous"
+              id="anonymous"
+              width={50}
+              height={50}
+              onChange={(e) => {
+                setIsAnonymous(e.currentTarget.checked);
+              }}
+            />
+          </div>
+          <div className="flex gap-2 w-full justify-end">
+            <Button variant="secondary" onClick={onClose} disabled={loading}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSubmit} disabled={loading}>
+              {loading ? "Submitting..." : isEditMode ? "Update" : "Create"}
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

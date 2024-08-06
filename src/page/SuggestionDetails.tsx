@@ -35,14 +35,20 @@ const SuggestionDetail: React.FC = () => {
 
   useEffect(() => {
     const fetchSuggestion = async () => {
+      setAuthor(null);
       try {
         const data = await getSuggestion(id!);
-        setSuggestion(data);
 
         if (data) {
-          const dataAuthor = await getUserData(data.createdBy);
-          setAuthor(dataAuthor);
+          try {
+            const dataAuthor = await getUserData(data.createdBy);
+            setAuthor(dataAuthor);
+          } catch (error) {
+            console.error(error);
+          }
         }
+
+        setSuggestion(data);
       } catch (error) {
         console.error(error);
       } finally {
@@ -196,24 +202,27 @@ const SuggestionDetail: React.FC = () => {
               <span>{suggestion.upvotes}</span>
             </Button>
           </div>
-          <hr className="pb-2" />
+
           <div>
             {user?.uid === suggestion.createdBy ||
             user?.role === "moderator" ? (
-              <div className="flex gap-2">
-                <Button onClick={() => setOpen(true)}>Edit</Button>
-                <Button onClick={handleDelete} variant={"destructive"}>
-                  Delete
-                </Button>
-                <SuggestionForm
-                  open={open}
-                  onClose={() => {
-                    setOpen(!open);
-                  }}
-                  suggestion={suggestion}
-                  isEditMode={true}
-                />
-              </div>
+              <>
+                <hr className="pb-2" />
+                <div className="flex gap-2">
+                  <Button onClick={() => setOpen(true)}>Edit</Button>
+                  <Button onClick={handleDelete} variant={"destructive"}>
+                    Delete
+                  </Button>
+                  <SuggestionForm
+                    open={open}
+                    onClose={() => {
+                      setOpen(!open);
+                    }}
+                    suggestion={suggestion}
+                    isEditMode={true}
+                  />
+                </div>
+              </>
             ) : null}
           </div>
         </div>
@@ -222,8 +231,8 @@ const SuggestionDetail: React.FC = () => {
             Related Suggestions
           </h2>
           <div className="grid grid-cols-1 gap-4">
-            {relatedSuggestions.map((related) => (
-              <SuggestModal suggestion={related} />
+            {relatedSuggestions.map((related, index) => (
+              <SuggestModal suggestion={related} key={index} />
             ))}
           </div>
 
