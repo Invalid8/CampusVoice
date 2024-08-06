@@ -17,12 +17,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
 
 function Settings() {
   const { user } = useAuth();
   const [isEditProfileOpen, setEditProfileOpen] = useState(false);
   const [isEditNotificationsOpen, setEditNotificationsOpen] = useState(false);
   const [isEditPrivacyOpen, setEditPrivacyOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleEditProfileOpen = () => setEditProfileOpen(true);
   const handleEditProfileClose = () => setEditProfileOpen(false);
@@ -52,6 +55,14 @@ function Settings() {
     <div className="flex-1 max-w-6xl mx-auto py-8 px-6">
       <div className="space-y-8">
         <div className="space-y-4">
+          <Button
+            className="bg-gray-900 text-white hover:bg-gray-800"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            Go back
+          </Button>
           <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
           <p className="text-gray-500">
             Manage your account settings, notifications, and privacy

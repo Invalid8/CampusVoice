@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Link } from "react-router-dom";
 
 function Filter() {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ function Filter() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="infrastructure">Infrastructure</SelectItem>
-                <SelectItem value="academics">Academics</SelectItem>
+                <SelectItem value="academic">Academics</SelectItem>
                 <SelectItem value="campus-life">Campus Life</SelectItem>
                 <SelectItem value="other">Other</SelectItem>
               </SelectContent>
@@ -77,13 +78,23 @@ function Filter() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button
-            type="submit"
-            className="bg-gray-900 text-white hover:bg-gray-800"
-            disabled={isDisabled}
-          >
-            Apply Filters
-          </Button>
+          <div className="flex justify-end gap-2 items-end w-full">
+            <Button
+              type="submit"
+              className="bg-gray-900 text-white hover:bg-gray-800"
+              disabled={isDisabled}
+            >
+              Apply Filters
+            </Button>
+            <Link to={"/suggestions"}>
+              <Button
+                type="button"
+                className="bg-gray-600 text-white hover:bg-gray-800"
+              >
+                Reset
+              </Button>
+            </Link>
+          </div>
         </CardFooter>
       </Card>
     </form>

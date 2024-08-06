@@ -41,8 +41,9 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
   const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("academic");
   const [urgency, setUrgency] = useState("");
+  const [status, setStatus] = useState("Draft");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -51,6 +52,7 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
       setDescription(suggestion.description);
       setCategory(suggestion.category);
       setUrgency(suggestion.urgency);
+      setStatus(suggestion.status);
     }
   }, [suggestion]);
 
@@ -73,13 +75,13 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
         await createSuggestion({
           title,
           description,
-          status: "Draft",
+          status,
           createdBy: user.uid,
           upvotes: 0,
           downvotes: 0,
-          isPublic: false,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          isPublic: true,
+          createdAt: new Date().toString(),
+          updatedAt: new Date().toString(),
           category,
           urgency: "low",
         });
@@ -117,35 +119,43 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
             onChange={(e) => setTitle(e.target.value)}
             disabled={loading}
           />
+          <Select onValueChange={setCategory} value={category}>
+            <SelectTrigger>
+              <SelectValue placeholder={category || "Category"} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="infrastructure">Infrastructure</SelectItem>
+              <SelectItem value="academic">Academics</SelectItem>
+              <SelectItem value="campus-life">Campus Life</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </SelectContent>
+          </Select>
           <Textarea
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             disabled={loading}
           />
-          <Select onValueChange={setCategory}>
+          <Select onValueChange={setUrgency}>
             <SelectTrigger>
-              <SelectValue placeholder="Category" />
+              <SelectValue placeholder="Urgency" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="infrastructure">Infrastructure</SelectItem>
-              <SelectItem value="academics">Academics</SelectItem>
-              <SelectItem value="campus-life">Campus Life</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
+              <SelectItem value="low">Low</SelectItem>
+              <SelectItem value="medium">Medium</SelectItem>
+              <SelectItem value="high">High</SelectItem>
             </SelectContent>
           </Select>
-          <Input
-            placeholder="Category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            disabled={loading}
-          />
-          {/* <Input
-            placeholder="Urgency"
-            value={urgency}
-            onChange={(e) => setUrgency(e.target.value)}
-            disabled={loading}
-          /> */}
+          <Select onValueChange={setStatus}>
+            <SelectTrigger>
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="open">Open</SelectItem>
+              <SelectItem value="in-progress">In Progress</SelectItem>
+              <SelectItem value="closed">Closed</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <DialogFooter>
           <Button variant="secondary" onClick={onClose} disabled={loading}>

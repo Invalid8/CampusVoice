@@ -13,6 +13,7 @@ import {
   Terms,
 } from "@/page";
 import RootLayout from "@/layout/RootLayout";
+import { Suspense } from "react";
 
 const App: React.FC = () => {
   return (
@@ -21,7 +22,14 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<RootLayout />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/suggestions" element={<Suggestions />} />
+            <Route
+              path="/suggestions"
+              element={
+                <Suspense>
+                  <Suggestions />
+                </Suspense>
+              }
+            />
             <Route path="/suggestions/:id" element={<SuggestionsDetails />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />

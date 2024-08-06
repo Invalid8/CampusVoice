@@ -26,8 +26,9 @@ function Navbar() {
           className="flex items-center gap-2 font-bold text-lg text-white"
         >
           <LightbulbIcon className="w-6 h-6 fill-white" />
-          <span>
-            <strong>Campus Voice</strong>
+          <span className="font-semibold">
+            <span className="sm:flex hidden">Campus Voice</span>
+            <span className="sm:hidden flex ">CV</span>
           </span>
         </Link>
         <nav className="hidden items-center gap-4 lg:gap-6 md:flex">
@@ -82,7 +83,11 @@ function Navbar() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant={"secondary"} className="gap-1" onClick={()=>setOpen(true)}>
+            <Button
+              variant={"secondary"}
+              className="gap-1"
+              onClick={() => setOpen(true)}
+            >
               <PlusIcon className="w-4 h-4" />
               <span className="hidden sm:flex">Create Suggestion</span>
             </Button>

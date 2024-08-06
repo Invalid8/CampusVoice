@@ -7,10 +7,10 @@ import {
   downvoteSuggestion,
   changeSuggestionStatus,
   Suggestion,
+  getSuggestion,
 } from "@/lib/suggestion";
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/ui/loader";
-import { Suggestions as AllSuggestions } from "@/data";
 
 const SuggestionDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +24,7 @@ const SuggestionDetail: React.FC = () => {
   useEffect(() => {
     const fetchSuggestion = async () => {
       try {
-        const data = AllSuggestions.find((e) => e.id === id);
+        const data = await getSuggestion(id!);
         setSuggestion(data);
       } catch (error) {
         console.error(error);
@@ -69,11 +69,14 @@ const SuggestionDetail: React.FC = () => {
           <p className="text-gray-600">
             Sorry, we couldn't find the suggestion you were looking for.
           </p>
-          <Link to="/suggestions">
-            <Button className="bg-gray-900 text-white hover:bg-gray-800">
-              Go back to Suggestions
-            </Button>
-          </Link>
+          <Button
+            className="bg-gray-900 text-white hover:bg-gray-800"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            Go back
+          </Button>
         </div>
       </div>
     ); // Display message if no suggestion found
@@ -81,8 +84,13 @@ const SuggestionDetail: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto py-8 px-6 flex flex-col gap-2">
       <Link to="/suggestions">
-        <Button className="bg-gray-900 text-white hover:bg-gray-800 float-right">
-          Go back to Suggestions
+        <Button
+          className="bg-gray-900 text-white hover:bg-gray-800 float-right"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          Go back
         </Button>
       </Link>
       <div className="space-y-4">

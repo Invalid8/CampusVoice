@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Star, ThumbsUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Suggestion } from "@/lib/suggestion"; // Replace with your actual data fetching function
-import { Suggestions as AllSuggestions } from "@/data";
+import { getPublicSuggestions, Suggestion } from "@/lib/suggestion";
 import SubString from "@/lib/subString";
 
 function TopSuggest() {
@@ -12,10 +11,10 @@ function TopSuggest() {
   useEffect(() => {
     const fetchTopSuggestions = async () => {
       try {
-        // const allSuggestions = await getPublicSuggestions(); // Replace with your actual data fetching function
-        const sortedSuggestions = AllSuggestions.sort(
-          (a, b) => b.upvotes - a.upvotes
-        ).slice(0, 6);
+        const allSuggestions = await getPublicSuggestions();
+        const sortedSuggestions = allSuggestions
+          .sort((a, b) => b.upvotes - a.upvotes)
+          .slice(0, 6);
         setTopSuggestions(sortedSuggestions);
       } catch (error) {
         console.error("Failed to fetch suggestions:", error);
