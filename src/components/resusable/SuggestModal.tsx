@@ -16,7 +16,7 @@ const SuggestModal = ({ suggestion }: { suggestion: Suggestion }) => {
     <Link to={"/suggestions/" + suggestion.id}>
       <Card className="sm:h-[200px] sm:max-h-[200px] justify-between flex-col flex hover:bg-accent overflow-hidden">
         <CardHeader className="p-3 sm:p-4">
-          <CardTitle>{suggestion.title}</CardTitle>
+          <CardTitle>{SubString(suggestion.title, 50)}</CardTitle>
           <CardDescription className="">
             {SubString(suggestion.description, 80)}
           </CardDescription>

@@ -7,8 +7,9 @@ import {
   signInWithPopup,
   signOut,
   onAuthStateChanged,
+  User,
 } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import Cookies from "js-cookie";
 
 const firebaseConfig = {
@@ -27,10 +28,40 @@ const analytics = getAnalytics(app);
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
+const createUserDocument = async (user: User) => {
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
+
+  if (!userSnap.exists()) {
+    await setDoc(userRef, {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      role: "user", // Default role
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+  } else {
+    await setDoc(
+      userRef,
+      {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        updatedAt: new Date(),
+      },
+      { merge: true }
+    );
+  }
+};
+
 const signInWithGoogle = async (): Promise<void> => {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
+    await createUserDocument(user);
     const token = await user.getIdToken();
     Cookies.set("token", token, { expires: 7, path: "/" });
   } catch (error: any) {
@@ -51,13 +82,15 @@ const getCurrentUser = (): Promise<any> => {
   return new Promise((resolve) => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const token = await user.getIdTokenResult();
-        const { claims } = token;
-        const userWithRole = {
-          ...user,
-          role: claims.role || "user", // Default role if none is set
-        };
-        resolve(userWithRole);
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          resolve({ ...user, ...userData });
+        } else {
+          resolve(null);
+        }
       } else {
         resolve(null);
       }

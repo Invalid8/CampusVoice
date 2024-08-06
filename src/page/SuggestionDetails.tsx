@@ -5,12 +5,19 @@ import {
   deleteSuggestion,
   upvoteSuggestion,
   downvoteSuggestion,
-  changeSuggestionStatus,
   Suggestion,
   getSuggestion,
+  getAllSuggestions,
 } from "@/lib/suggestion";
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/ui/loader";
+import { SuggestionForm, SuggestModal } from "@/components/resusable";
+import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { User } from "firebase/auth";
+import { getUserData } from "@/lib/users";
+import FormatDate, { convertTimestampToDate } from "@/lib/formatDate";
 
 const SuggestionDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,7 +25,12 @@ const SuggestionDetail: React.FC = () => {
   const [suggestion, setSuggestion] = useState<Suggestion | null | undefined>(
     null
   );
+  const [relatedSuggestions, setRelatedSuggestions] = useState<Suggestion[]>(
+    []
+  );
   const [loading, setLoading] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
+  const [author, setAuthor] = useState<User | null>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +38,11 @@ const SuggestionDetail: React.FC = () => {
       try {
         const data = await getSuggestion(id!);
         setSuggestion(data);
+
+        if (data) {
+          const dataAuthor = await getUserData(data.createdBy);
+          setAuthor(dataAuthor);
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -36,28 +53,42 @@ const SuggestionDetail: React.FC = () => {
     fetchSuggestion();
   }, [id]);
 
+  useEffect(() => {
+    const fetchRelatedSuggestions = async () => {
+      try {
+        const suggestions = await getAllSuggestions();
+        const filteredSuggestions = suggestions.filter(
+          (s) => s.id !== id && s.status === suggestion?.status
+        );
+        setRelatedSuggestions(filteredSuggestions.slice(0, 6));
+      } catch (error) {
+        console.error("Error fetching related suggestions:", error);
+      }
+    };
+
+    if (suggestion) {
+      fetchRelatedSuggestions();
+    }
+  }, [suggestion, id]);
+
   const handleUpvote = async () => {
-    await upvoteSuggestion(id!);
+    if (!user) return;
+    await upvoteSuggestion(id!, user?.uid);
     setSuggestion((prev) => prev && { ...prev, upvotes: prev.upvotes + 1 });
   };
 
   const handleDownvote = async () => {
-    await downvoteSuggestion(id!);
+    if (!user) return;
+    await downvoteSuggestion(id!, user?.uid);
     setSuggestion((prev) => prev && { ...prev, downvotes: prev.downvotes + 1 });
-  };
-
-  const handleStatusChange = async (status: string) => {
-    if (user?.role !== "moderator") return;
-    await changeSuggestionStatus(id!, status, user);
-    setSuggestion((prev) => prev && { ...prev, status: status });
   };
 
   const handleDelete = async () => {
     await deleteSuggestion(id!, user!);
-    navigate("/suggestions"); // Redirect to suggestions list
+    navigate("/suggestions");
   };
 
-  if (loading) return <Loader />; // Display loader while fetching data
+  if (loading) return <Loader />;
 
   if (!suggestion)
     return (
@@ -79,50 +110,103 @@ const SuggestionDetail: React.FC = () => {
           </Button>
         </div>
       </div>
-    ); // Display message if no suggestion found
+    );
 
   return (
     <div className="max-w-4xl mx-auto py-8 px-6 flex flex-col gap-2">
       <Link to="/suggestions">
-        <Button
-          className="bg-gray-900 text-white hover:bg-gray-800 float-right"
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
+        <Button className="bg-gray-900 text-white hover:bg-gray-800 float-right">
           Go back
         </Button>
       </Link>
-      <div className="space-y-4">
-        <h1 className="text-3xl font-bold text-gray-900">{suggestion.title}</h1>
-        <p className="text-gray-700">{suggestion.description}</p>
-        <p>Status: {suggestion.status}</p>
-        <p>Upvotes: {suggestion.upvotes}</p>
-        <p>Downvotes: {suggestion.downvotes}</p>
-        <div className="flex space-x-4">
-          <Button onClick={handleUpvote}>Upvote</Button>
-          <Button onClick={handleDownvote}>Downvote</Button>
-          {user?.role === "moderator" && (
-            <>
-              <Button onClick={() => handleStatusChange("Pending")}>
-                Set to Pending
-              </Button>
-              <Button onClick={() => handleStatusChange("Done")}>
-                Set to Done
-              </Button>
-              <Button onClick={() => handleStatusChange("Closed/Cancelled")}>
-                Set to Closed/Cancelled
-              </Button>
-            </>
+      <div className="grid md:grid-cols-[1fr_350px] gap-8">
+        <div className="flex p-4 sm:p-8 md:p-10 rounded-sm flex-col border-2 shadow-lg gap-3 bg-white h-fit">
+          <div className="user flex gap-2 justify-end items-end">
+            <Avatar className="h-9 w-9">
+              <AvatarImage src={author?.photoURL ?? "/placeholder-user.jpg"} />
+              <AvatarFallback>
+                {author?.displayName?.charAt(0) ?? "A"}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col gap-0 5">
+              <span className="capitalized text-sm font-bold">
+                {author?.displayName ?? "Anonymous"}
+              </span>
+              <span className="capitalized text-xs">
+                {FormatDate(convertTimestampToDate(suggestion.createdAt))}
+              </span>
+            </div>
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900">
+            {suggestion.title}
+          </h1>
+          <p className="text-gray-700">{suggestion.description}</p>
+          <div
+            className={cn(
+              "badge px-4 py-1.5 rounded-full font-bold w-fit text-sm capitalize",
+              suggestion.status.toLowerCase() === "draft" && "bg-yellow-400",
+              suggestion.status.toLowerCase() === "closed" && "bg-red-400",
+              suggestion.status.toLowerCase() === "pending" && "bg-green-400",
+              suggestion.status.toLowerCase() === "open" &&
+                "bg-gray-900 text-white"
+            )}
+          >
+            {suggestion.status}
+          </div>
+          <div className="flex items-center gap-2 text-sm text-gray-500 justify-end w-full">
+            <Button
+              onClick={handleDownvote}
+              className="flex gap-1"
+              variant="ghost"
+            >
+              <ThumbsDownIcon className="w-5 h-5 fill-gray-900" />
+              <span>{suggestion.downvotes}</span>
+            </Button>
+            <Button
+              onClick={handleUpvote}
+              className="flex gap-1"
+              variant="ghost"
+            >
+              <ThumbsUpIcon className="w-5 h-5 fill-gray-900" />
+              <span>{suggestion.upvotes}</span>
+            </Button>
+          </div>
+          <hr className="pb-2" />
+          <div>
+            {user?.uid === suggestion.createdBy ||
+            user?.role === "moderator" ? (
+              <div className="flex gap-2">
+                <Button onClick={() => setOpen(true)}>Edit</Button>
+                <Button onClick={handleDelete} variant={"destructive"}>
+                  Delete
+                </Button>
+                <SuggestionForm
+                  open={open}
+                  onClose={() => {
+                    setOpen(!open);
+                  }}
+                  suggestion={suggestion}
+                  isEditMode={true}
+                />
+              </div>
+            ) : null}
+          </div>
+        </div>
+        <div className="related-suggestions flex flex-col gap-4">
+          <h2 className="text-2xl font-bold text-gray-900">
+            Related Suggestions
+          </h2>
+          <div className="grid grid-cols-1 gap-4">
+            {relatedSuggestions.map((related) => (
+              <SuggestModal suggestion={related} />
+            ))}
+          </div>
+
+          {relatedSuggestions.length === 0 && (
+            <div className="box w-full">
+              <p>No related suggestions at the moment</p>
+            </div>
           )}
-          {user?.uid === suggestion.createdBy || user?.role === "moderator" ? (
-            <>
-              <Button>
-                <Link to={`/suggestions/edit/${id}`}>Edit</Link>
-              </Button>
-              <Button onClick={handleDelete}>Delete</Button>
-            </>
-          ) : null}
         </div>
       </div>
     </div>

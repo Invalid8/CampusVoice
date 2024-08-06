@@ -34,13 +34,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const token = Cookies.get("token");
-    if (token) {
-      getCurrentUser().then((currentUser) => {
+    const fetchUser = async () => {
+      const token = Cookies.get("token");
+      if (token) {
+        const currentUser = await getCurrentUser();
         setUser(currentUser);
-      });
-    }
-    setLoading(false);
+      }
+      setLoading(false);
+    };
+    fetchUser();
   }, []);
 
   const signIn = async () => {

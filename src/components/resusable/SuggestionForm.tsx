@@ -16,7 +16,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
 import {
   Select,
   SelectContent,
@@ -42,8 +41,8 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("academic");
-  const [urgency, setUrgency] = useState("");
-  const [status, setStatus] = useState("Draft");
+  const [urgency, setUrgency] = useState("low");
+  const [status, setStatus] = useState("draft");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -84,13 +83,16 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
           updatedAt: new Date().toString(),
           category,
           urgency: "low",
+          upvotedUsers: [],
+          downvotedUsers: [],
         });
       }
 
       setTitle("");
       setDescription("");
-      setCategory("");
-      setUrgency("");
+      setCategory("academic");
+      setUrgency("low");
+      setStatus("draft");
       onClose();
     } catch (error) {
       console.error("Error submitting suggestion:", error);
@@ -121,7 +123,7 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
           />
           <Select onValueChange={setCategory} value={category}>
             <SelectTrigger>
-              <SelectValue placeholder={category || "Category"} />
+              <SelectValue placeholder={"Category"} defaultValue={category} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="infrastructure">Infrastructure</SelectItem>
@@ -130,32 +132,35 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
               <SelectItem value="other">Other</SelectItem>
             </SelectContent>
           </Select>
+          <div className="grid grid-cols-2 gap-3">
+            <Select onValueChange={setUrgency} value={urgency}>
+              <SelectTrigger>
+                <SelectValue placeholder="Urgency" defaultValue={urgency} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="low">Low</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="high">High</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select onValueChange={setStatus} value={status}>
+              <SelectTrigger>
+                <SelectValue placeholder="Status" defaultValue={status} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="open">Open</SelectItem>
+                <SelectItem value="in-progress">In Progress</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="closed">Closed</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
           <Textarea
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             disabled={loading}
           />
-          <Select onValueChange={setUrgency}>
-            <SelectTrigger>
-              <SelectValue placeholder="Urgency" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="low">Low</SelectItem>
-              <SelectItem value="medium">Medium</SelectItem>
-              <SelectItem value="high">High</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select onValueChange={setStatus}>
-            <SelectTrigger>
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="open">Open</SelectItem>
-              <SelectItem value="in-progress">In Progress</SelectItem>
-              <SelectItem value="closed">Closed</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
         <DialogFooter>
           <Button variant="secondary" onClick={onClose} disabled={loading}>
