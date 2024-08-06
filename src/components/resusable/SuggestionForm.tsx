@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
 
 interface SuggestionDialogProps {
   open: boolean;
@@ -44,6 +45,7 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
   const [urgency, setUrgency] = useState("low");
   const [status, setStatus] = useState("draft");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (suggestion) {
@@ -70,6 +72,8 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
           { title, description, category, urgency },
           user
         );
+
+        navigate(0);
       } else {
         await createSuggestion({
           title,
@@ -93,7 +97,9 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
       setCategory("academic");
       setUrgency("low");
       setStatus("draft");
+
       onClose();
+      navigate(0);
     } catch (error) {
       console.error("Error submitting suggestion:", error);
     } finally {
@@ -115,52 +121,68 @@ const SuggestionDialog: React.FC<SuggestionDialogProps> = ({
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
-          <Input
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            disabled={loading}
-          />
-          <Select onValueChange={setCategory} value={category}>
-            <SelectTrigger>
-              <SelectValue placeholder={"Category"} defaultValue={category} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="infrastructure">Infrastructure</SelectItem>
-              <SelectItem value="academic">Academics</SelectItem>
-              <SelectItem value="campus-life">Campus Life</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
-            </SelectContent>
-          </Select>
-          <div className="grid grid-cols-2 gap-3">
-            <Select onValueChange={setUrgency} value={urgency}>
-              <SelectTrigger>
-                <SelectValue placeholder="Urgency" defaultValue={urgency} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="high">High</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select onValueChange={setStatus} value={status}>
-              <SelectTrigger>
-                <SelectValue placeholder="Status" defaultValue={status} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="open">Open</SelectItem>
-                <SelectItem value="in-progress">In Progress</SelectItem>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="closed">Closed</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <Textarea
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            disabled={loading}
-          />
+          {user?.role === "user" && (
+            <>
+              <Input
+                placeholder="Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                disabled={loading}
+              />
+              <Select onValueChange={setCategory} value={category}>
+                <SelectTrigger>
+                  <SelectValue
+                    placeholder={"Category"}
+                    defaultValue={category}
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="infrastructure">Infrastructure</SelectItem>
+                  <SelectItem value="academic">Academics</SelectItem>
+                  <SelectItem value="campus-life">Campus Life</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </>
+          )}
+
+          {user?.role !== "user" ||
+            (suggestion?.createdBy === user.uid && (
+              <div className="grid grid-cols-2 gap-3">
+                <Select onValueChange={setUrgency} value={urgency}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Urgency" defaultValue={urgency} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select onValueChange={setStatus} value={status}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Status" defaultValue={status} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="open">Open</SelectItem>
+                    <SelectItem value="in-progress">In Progress</SelectItem>
+                    <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="closed">Closed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            ))}
+          {user?.role === "user" && (
+            <>
+              <Textarea
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                disabled={loading}
+              />
+            </>
+          )}
         </div>
         <DialogFooter>
           <Button variant="secondary" onClick={onClose} disabled={loading}>

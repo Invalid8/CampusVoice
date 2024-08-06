@@ -141,17 +141,42 @@ const SuggestionDetail: React.FC = () => {
             {suggestion.title}
           </h1>
           <p className="text-gray-700">{suggestion.description}</p>
-          <div
-            className={cn(
-              "badge px-4 py-1.5 rounded-full font-bold w-fit text-sm capitalize",
-              suggestion.status.toLowerCase() === "draft" && "bg-yellow-400",
-              suggestion.status.toLowerCase() === "closed" && "bg-red-400",
-              suggestion.status.toLowerCase() === "pending" && "bg-green-400",
-              suggestion.status.toLowerCase() === "open" &&
-                "bg-gray-900 text-white"
-            )}
-          >
-            {suggestion.status}
+          <div className="flex gap-1.5 flex-wrap">
+            <div
+              className={cn(
+                "badge px-3.5 py-1.5 rounded-full font-semibold w-fit text-xs capitalize select-none",
+                suggestion.status.toLowerCase() === "draft" && "bg-yellow-400",
+                suggestion.status.toLowerCase() === "closed" && "bg-red-400",
+                suggestion.status.toLowerCase() === "pending" && "bg-green-400",
+                suggestion.status.toLowerCase() === "open" &&
+                  "bg-gray-900 text-white"
+              )}
+              title="Suggestion Status"
+            >
+              {suggestion.status}
+            </div>
+            <div
+              className={cn(
+                "badge px-3.5 py-1.5 rounded-full font-semibold w-fit text-xs capitalize select-none",
+
+                "border-2 border-gray-900 text-gray-900"
+              )}
+              title="Suggestion Category"
+            >
+              {suggestion.category}
+            </div>
+            <div
+              className={cn(
+                "badge px-3.5 py-1.5 rounded-full font-semibold w-fit text-xs capitalize select-none",
+                suggestion.urgency.toLowerCase() === "low" && "bg-yellow-400",
+                suggestion.urgency.toLowerCase() === "high" && "bg-red-400",
+                suggestion.urgency.toLowerCase() === "medium" &&
+                  "bg-gray-900 text-white"
+              )}
+              title="Suggestion Urgency"
+            >
+              {suggestion.urgency}
+            </div>
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-500 justify-end w-full">
             <Button
