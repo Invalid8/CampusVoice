@@ -18,6 +18,7 @@ function Profile() {
 
       try {
         const allSuggestions = await getUserSuggestions(user?.uid ?? "");
+        console.log(allSuggestions);
         setAllSuggestions(allSuggestions);
       } catch (error) {
         console.error("Failed to fetch suggestions:", error);
@@ -48,6 +49,24 @@ function Profile() {
             {loading && (
               <div className="div py-8 px-6">
                 <Loader />
+              </div>
+            )}
+            {!loading && allSuggestions.length == 0 && (
+              <div className="flex justify-center items-center min-w-full min-h-full">
+                <div className="info flex flex-col gap-2 items-center">
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    NO Suggestions
+                  </h2>
+                  <p className="text-gray-600">
+                    You haven't created any suggestion yet
+                  </p>
+                  <Button
+                    className="bg-gray-900 text-white hover:bg-gray-800"
+                    onClick={() => {}}
+                  >
+                    Create Suggestions
+                  </Button>
+                </div>
               </div>
             )}
             {!loading && (

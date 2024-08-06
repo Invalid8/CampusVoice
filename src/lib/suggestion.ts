@@ -221,7 +221,7 @@ export const getPublicSuggestions = async (): Promise<any[]> => {
 export const getUserSuggestions = async (userId: string): Promise<any[]> => {
   try {
     const suggestionsRef = collection(db, "suggestions");
-    const q = query(suggestionsRef, where("userId", "==", userId));
+    const q = query(suggestionsRef, where("createdBy", "==", userId));
     const suggestionsSnapshot = await getDocs(q);
     const suggestions = suggestionsSnapshot.docs.map((doc) => ({
       id: doc.id,
