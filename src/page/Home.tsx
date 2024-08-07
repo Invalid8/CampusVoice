@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
+import { CircleFadingPlus, LayoutDashboard, Send, TabletSmartphone, UserRound, Vote } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -42,7 +43,7 @@ function Home() {
               </div>
             </div>
             <img
-              src="/placeholder.svg"
+              src="/header_img.jpg"
               width="550"
               height="550"
               alt="Hero"
@@ -73,6 +74,9 @@ function Home() {
           </div>
           <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3">
             <div className="grid gap-1">
+              <span className=" p-2 bg-gray-300 w-min rounded-lg">
+                <UserRound />
+              </span>
               <h3 className="text-lg font-bold">User Authentication</h3>
               <p className="text-sm text-muted-foreground">
                 Secure your account and ensure your suggestions are associated
@@ -80,6 +84,9 @@ function Home() {
               </p>
             </div>
             <div className="grid gap-1">
+              <span className=" p-2 bg-gray-300 w-min rounded-lg">
+                <Send />
+              </span>
               <h3 className="text-lg font-bold">Suggestion Submission</h3>
               <p className="text-sm text-muted-foreground">
                 Easily submit your suggestions with relevant details to help the
@@ -87,6 +94,9 @@ function Home() {
               </p>
             </div>
             <div className="grid gap-1">
+              <span className=" p-2 bg-gray-300 w-min rounded-lg">
+                <Vote />
+              </span>
               <h3 className="text-lg font-bold">Voting and Tracking</h3>
               <p className="text-sm text-muted-foreground">
                 Vote on suggestions submitted by others and monitor the status
@@ -94,6 +104,9 @@ function Home() {
               </p>
             </div>
             <div className="grid gap-1">
+              <span className=" p-2 bg-gray-300 w-min rounded-lg">
+                <LayoutDashboard />
+              </span>
               <h3 className="text-lg font-bold">Admin Dashboard</h3>
               <p className="text-sm text-muted-foreground">
                 University administrators can manage and respond to all
@@ -101,6 +114,9 @@ function Home() {
               </p>
             </div>
             <div className="grid gap-1">
+              <span className=" p-2 bg-gray-300 w-min rounded-lg">
+                <TabletSmartphone />
+              </span>
               <h3 className="text-lg font-bold">Mobile Responsiveness</h3>
               <p className="text-sm text-muted-foreground">
                 Access the <strong>Campus Voice</strong> from any device,
@@ -108,6 +124,9 @@ function Home() {
               </p>
             </div>
             <div className="grid gap-1">
+              <span className=" p-2 bg-gray-300 w-min rounded-lg">
+                <CircleFadingPlus />
+              </span>
               <h3 className="text-lg font-bold">Improved Campus Experience</h3>
               <p className="text-sm text-muted-foreground">
                 Your suggestions can help shape a better campus environment for
@@ -138,7 +157,7 @@ function Home() {
           </div>
           <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
             <img
-              src="/placeholder.svg"
+              src="/about.jpg"
               width="550"
               height="310"
               alt="Image"
@@ -228,7 +247,7 @@ function Home() {
             <div className="grid gap-4 p-8 md:p-10">
               <div className="flex gap-4 justify-center flex-col items-center">
                 <Avatar className="w-10 h-10 border">
-                  <AvatarImage src="/placeholder-user.jpg" />
+                  <AvatarImage src="/avatar_1.jpg" />
                   <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
                 <div className="grid gap-1">
@@ -248,7 +267,7 @@ function Home() {
             <div className="grid gap-4 p-8 md:p-10">
               <div className="flex gap-4 justify-center flex-col items-center">
                 <Avatar className="w-10 h-10 border">
-                  <AvatarImage src="/placeholder-user.jpg" />
+                  <AvatarImage src="/avatar_2.jpg" />
                   <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
                 <div className="grid gap-1">

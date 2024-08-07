@@ -24,7 +24,7 @@ function About() {
             </div>
             <div className="flex items-center justify-center">
               <img
-                src="/placeholder.svg"
+                src="/share.jpg"
                 width={400}
                 height={400}
                 alt="..."
